@@ -11,14 +11,20 @@ class QueueSimulator
     @counter = 0
     @num_clients_pm
     @ramdom_clients
+    @draw_simulation = PrinterConsole.new(@market)
   end
 
   def run
     get_data
     @market.create_cash_register(@num_cash_register, @type_simulation)
-    define_clients
-    @market.enter_clients(@num_clients_pm)
-    @market.next_iteration
+    for iteration in 1..@iterations do
+      define_clients
+      @market.enter_clients(@num_clients_pm)
+      @market.next_iteration
+      @draw_simulation.print_sml
+      delay
+    end
+    calculation_time_wait_clients
   end
 
   def get_data
@@ -48,6 +54,8 @@ class QueueSimulator
   def delay
     sleep(@delta_t)
   end
+
+  def calculation_time_wait_clients; end
 
   protected
 

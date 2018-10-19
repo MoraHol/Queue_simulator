@@ -15,6 +15,7 @@ class CashRegister
     def next_iteration
       if @client != nil
         @client.subtraction_time_cash_register
+        @client.sum_wait_time
         if @client.time_cash_register == 0
           @client=nil
         end

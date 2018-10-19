@@ -1,7 +1,9 @@
 class PrinterConsole
-def initialize(market)
+  def initialize(market)
     @market = market
-end
-def print
-end
+  end
+
+  def print_sml
+  end
+
 end

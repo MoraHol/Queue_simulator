@@ -2,7 +2,7 @@ require_relative '../models/market'
 require_relative '../models/client'
 require_relative '../views/printer_console'
 class QueueSimulator
-  attr_accessor :market
+  attr_accessor :market, :type_simulation
   def initialize
     @type_simulation
     @delta_t

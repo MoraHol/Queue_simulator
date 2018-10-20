@@ -31,6 +31,7 @@ class PrinterConsole
   def print_queues
     (0..longest_queue_size - 1).each do |i|
       @market.queues.each do |queue|
+        print '    ' if @simulator.type_simulation == :M_1
         if queue.clients[i].nil?
           print '|  | '
         else

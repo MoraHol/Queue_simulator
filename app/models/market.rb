@@ -2,7 +2,7 @@ require_relative 'cash_register'
 require_relative 'queue'
 require_relative 'client'
 class Market
-  attr_accessor :clients_attended
+  attr_accessor :clients_attended, :cash_register, :queues
   def initialize
     @cash_register = []
     @queues = []
@@ -18,7 +18,7 @@ class Market
   end
 
   def enter_clients(num_clients)
-    for i in 0..num_clients - 1 do
+    (0..num_clients - 1).each do |_i|
       client = Client.new
       client.choose_queue(@queues).add(client)
     end
@@ -39,7 +39,7 @@ class Market
   protected
 
   def create_cash_register_M_M(n)
-    for i in (0..n - 1) do
+    (0..n - 1).each do |i|
       @queues[i] = Queue.new
       @cash_register[i] = CashRegister.new(@queues[i], self)
     end
@@ -47,15 +47,14 @@ class Market
 
   def create_cash_register_M_1(n)
     @queues[0] = Queue.new
-    for i in (0..n - 1) do
+    (0..n - 1).each do |i|
       @cash_register[i] = CashRegister.new(@queues[0], self)
     end
   end
 
   def client_to_cash_register
     @cash_register.each do |cash|
-      next unless cash.client.nil?
-      cash.next_client
+      cash.next_client if cash.client.nil?
     end
   end
 end

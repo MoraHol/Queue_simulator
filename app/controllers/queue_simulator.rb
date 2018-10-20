@@ -37,7 +37,7 @@ class QueueSimulator
 
   def define_clients
     if @counter == 0
-      @ramdom_clients = rand(5)
+      @ramdom_clients = rand(4) + 1
       @num_clients_pm = rand(@ramdom_clients)
       @ramdom_clients -= @num_clients_pm
       @counter += 1
@@ -71,9 +71,9 @@ class QueueSimulator
     puts '(multiples cajas-unica fila / multiples cajas-multiples filas) 1 / 2:'
     input = gets.chomp.to_i
     if input == 1
-      @type_simulation = :M_M
-    elsif input == 2
       @type_simulation = :M_1
+    elsif input == 2
+      @type_simulation = :M_M
     else
       puts 'opcion incorrecta'
       get_type_simulation

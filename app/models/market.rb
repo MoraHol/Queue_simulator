@@ -2,6 +2,7 @@ require_relative 'cash_register'
 require_relative 'queue'
 require_relative 'client'
 class Market
+  attr_accessor :clients_attended
   def initialize
     @cash_register = []
     @queues = []

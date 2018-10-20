@@ -2,6 +2,7 @@ require_relative '../models/market'
 require_relative '../models/client'
 require_relative '../views/printer_console'
 class QueueSimulator
+  attr_accessor :market
   def initialize
     @type_simulation
     @delta_t
@@ -11,7 +12,7 @@ class QueueSimulator
     @counter = 0
     @num_clients_pm
     @ramdom_clients
-    @draw_simulation = PrinterConsole.new(@market)
+    @draw_simulation = PrinterConsole.new(self)
   end
 
   def run
@@ -24,7 +25,7 @@ class QueueSimulator
       @draw_simulation.print_sml
       delay
     end
-    calculation_time_wait_clients
+    @draw_simulation.print_prom
   end
 
   def get_data
@@ -52,10 +53,16 @@ class QueueSimulator
   end
 
   def delay
-    sleep(@delta_t)
+    sleep(@delta_t) if @delta_t > 0
   end
 
-  def calculation_time_wait_clients; end
+  def calculation_time_wait_clients
+    sum = 0
+    @market.clients_attended.each do |client|
+      sum += client.wait_time
+    end
+    sum / @market.clients_attended.size
+  end
 
   protected
 

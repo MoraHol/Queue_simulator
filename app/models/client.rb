@@ -1,7 +1,7 @@
 require_relative 'queue'
 
 class Client
-  attr_accessor :name, :time_cash_register
+  attr_accessor :name, :time_cash_register, :wait_time
   def initialize
     @wait_time = 0
     @name
@@ -30,7 +30,7 @@ class Client
 
   def assign_name
     letters = %w[a b d e f g h i j k l m n o p r s t u v x y z]
-    @name = letters[rand(letters.size)]
+    @name = letters[rand(letters.size)] + letters[rand(letters.size)]
   end
 
   def define_time_cash_register

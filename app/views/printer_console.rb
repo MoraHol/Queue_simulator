@@ -3,7 +3,5 @@ class PrinterConsole
     @market = market
   end
 
-  def print_sml
-  end
-
+  def print_sml; end
 end

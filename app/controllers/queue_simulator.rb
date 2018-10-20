@@ -2,6 +2,7 @@ require_relative '../models/market'
 require_relative '../models/client'
 require_relative '../views/printer_console'
 class QueueSimulator
+  attr_accessor :market
   def initialize
     @type_simulation
     @delta_t
@@ -11,7 +12,7 @@ class QueueSimulator
     @counter = 0
     @num_clients_pm
     @ramdom_clients
-    @draw_simulation = PrinterConsole.new(@market)
+    @draw_simulation = PrinterConsole.new(self)
   end
 
   def run
@@ -24,7 +25,7 @@ class QueueSimulator
       @draw_simulation.print_sml
       delay
     end
-    calculation_time_wait_clients
+    @draw_simulation.print_prom
   end
 
   def get_data
@@ -36,7 +37,7 @@ class QueueSimulator
 
   def define_clients
     if @counter == 0
-      @ramdom_clients = rand(5)
+      @ramdom_clients = rand(4) + 1
       @num_clients_pm = rand(@ramdom_clients)
       @ramdom_clients -= @num_clients_pm
       @counter += 1
@@ -52,10 +53,16 @@ class QueueSimulator
   end
 
   def delay
-    sleep(@delta_t)
+    sleep(@delta_t) if @delta_t > 0
   end
 
-  def calculation_time_wait_clients; end
+  def calculation_time_wait_clients
+    sum = 0
+    @market.clients_attended.each do |client|
+      sum += client.wait_time
+    end
+    sum / @market.clients_attended.size
+  end
 
   protected
 
@@ -64,9 +71,9 @@ class QueueSimulator
     puts '(multiples cajas-unica fila / multiples cajas-multiples filas) 1 / 2:'
     input = gets.chomp.to_i
     if input == 1
-      @type_simulation = :M_M
-    elsif input == 2
       @type_simulation = :M_1
+    elsif input == 2
+      @type_simulation = :M_M
     else
       puts 'opcion incorrecta'
       get_type_simulation
